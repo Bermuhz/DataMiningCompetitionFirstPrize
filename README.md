@@ -1,27 +1,4 @@
-# 助学金精准预测-DataMining
-
-
-## 序言
-This repo contains the source code for the first prize in 'DataCastle National Big Data Algorithm Competition(Education topic)' hold by ChengDu Government, China, in which our team has won CNY$30000(about US$4500) bonus.
-
-### Paper report
-We have prepared **a very detailed paper report for this in [PDF](https://github.com/lzddzh/DataMiningCompetitionFirstPrize/blob/master/doc/Wining%20the%20Education%20Subsidy%20Prediction%20Challenge%20with%20Models%20Ensemble%20and%20Feature%20Engineering_A0159066X_A0159369L.pdf).**
-  
-
-你所看到的这份代码，是Data Castle数据挖掘公开赛《助学金精准预测》的冠军作品。本程序以大学生的行为数据以及历史获助学金情况作为训练数据集，对代码内的模型进行训练，后可根据新的大学生行为数据进行助学金获得情况预测。赛题的详细描述可查看比赛网址：
-
-[大学生助学金精准资助预测](http://www.pkbigdata.com/common/cmpt/%E5%A4%A7%E5%AD%A6%E7%94%9F%E5%8A%A9%E5%AD%A6%E9%87%91%E7%B2%BE%E5%87%86%E8%B5%84%E5%8A%A9%E9%A2%84%E6%B5%8B_%E7%AB%9E%E8%B5%9B%E4%BF%A1%E6%81%AF.html)
-训练数据集以及测试数据集均可在该地址中找到。
-
-本文档将详细介绍代码的运行方法，但不会对机器学习的规范化流程和分类器模型的原理做过多的赘述。相关信息可自行google或baidu之。
-
-## 数据下载地址
-
-地址：http://pan.baidu.com/s/1skOIOzV
-密码：mw0a   
-
-最后一周更换数据地址：http://pan.baidu.com/s/1kUZQxlt
-密码：1bpr 
+# 贫困生预测-DataMining
 
 ## 运行环境
 - Linux (kernel >= 3.2) / Unix (macOS)
@@ -31,35 +8,11 @@ We have prepared **a very detailed paper report for this in [PDF](https://github
 - scipy 0.18.1
 - xgboost 0.6a2
 
-若您的电脑缺少以上环境或程序包，请按照上面的版本安装之。  
-如何安装请google或百度之。
-
-如果您不确定您是否拥有这些依赖包，请在命令行输入下面命令查看之：
-
-```
-$ python --version
-```
-
-这将输出您的python版本号, 请确保您的版本号以2.7开头。  
-
-```
-$ pip freeze
-```
-输入回车后，您应该能看到以下信息：
-
-```
-numpy==1.12.0
-scikit-learn==0.18.1
-scipy==0.18.1
-xgboost==0.6a2
-```
-
 ## 包含的文件目录
 
 ```
 -blending            #融合
 -learning_algorithm  #各种分类器的模型  
--online              #对test集合进行预测，产生线上提交数据
 -studentForm         #由原始训练/测试数据作invert处理后得到的表存放在这里
 -data_analysis       #手工地对数据集进行观察的脚本
 -original_data       #存放数据的位置，包括处理后得到的模型输入文件。
@@ -67,16 +20,11 @@ xgboost==0.6a2
 -commons             #保存有各个分类器模型的参数，以及一些通用的功能模块
 -commond             #集群调度的脚本
 -feature_importance  #查看feature的重要度排名脚本
--offline             #对train集合进行训练，线下调参
+-offline             #对train集合进行训练，调参
 -processing          #数据预处理，提取feature
 -data                #请将数据集解压后放置在本目录下
 README.md            #本文件
-README.pdf           #本文件的PDF版本
 ```
-
-## 如何运行
-**注意** 目前，这些代码的编写是只保证可以work，能够生成出结果的。因为在参赛期间只需要团队内部成员可以运行，所以我们并没有提供傻瓜式的一键操作可以让您直接从输入得到输出。要运行这些代码可能需要一些专业知识，和对代码中一些路径名的修改。我们尽可能的将运行代码的步骤详细写出。 尽管如此，您可能还是会在某个环节出现问题，需要你动点脑筋去解决，如果有任何疑问可以通过本文档末尾所列出的成员信息联系我们。
-
 
 ### 预处理
 将打包文件解压后进入项目根目录下：
@@ -85,7 +33,7 @@ README.pdf           #本文件的PDF版本
 $ unzip datacastle_subsidy.zip
 $ cd datacastle_subsidy
 ```
-在当前目录下，您应该可以看到本文档上一节中所描述的所有文件夹目录名，现在我们首先要做的是对原始数据进行预处理，并提取feature值。在此之前，请先确保您已经把下载下来的数据集解压并按照格式放在了`data`目录下。如下所示：
+在当前目录下，应该可以看到本文档上一节中所描述的所有文件夹目录名，现在我们首先要做的是对原始数据进行预处理，并提取feature值。
 
 ```
 -data  
@@ -116,7 +64,7 @@ $ python createStudentForms.py dorm_final_test.txt
 $ python createStudentForms.py library_final_test.txt
 $ python createStudentForms.py score_final_test.txt  
 ```
-然后用您喜欢的文字编辑器打开`creatStudentForms.py`文件，修改代码中的路径名，以供继续invert训练集数据。修改好后，请运行：
+然后用编辑器打开`creatStudentForms.py`文件，修改代码中的路径名，以供继续invert训练集数据。修改好后，请运行：
 
 ```
 $ python createStudentForms.py borrow_train.txt
@@ -128,10 +76,10 @@ $ python createStudentForms.py score_train.txt
 
 上面运行的这些命令将对数据表作invert处理，并将生成出的表存放在根目录的`studentForm`下。
 
-**注意** 上面命令在处理一些大文件的时候可能需要一些时间，请耐心等待不要关闭他们。
+**注意** 上面命令在处理一些大文件的时候可能需要一些时间
 
 ### 提取feature
-现在，我们将从`studentForm`文件夹下的文件中提取特征值，在`processing`文件目录下运行：
+现在，将从`studentForm`文件夹下的文件中提取特征值，在`processing`文件目录下运行：
 
 ```
 $ python processBorrow.py train
@@ -140,7 +88,7 @@ $ python processDorm.py train
 $ python processLibrary.py train
 $ python processScore.py train
 ```
-上面对训练集提取了训练集中的feature值，保存在名为`*Processed.txt`文件中并存放在`processing/trainProcessed`文件夹下。然后我们对测试集做同样的处理：
+上面对训练集提取了训练集中的feature值，保存在名为`*Processed.txt`文件中并存放在`processing/trainProcessed`文件夹下。然后对测试集做同样的处理：
 
 ```
 $ python processBorrow.py test
@@ -151,7 +99,7 @@ $ python processScore.py test
 ```
 同样的，上面的命令提取了测试集中的feature值，保存在名为`*Processed.txt`文件中并存放在`processing/testProcessed`文件夹下。
 
-由于后期我们又添加了新的feature，这部分新的代码在`processing/newFeatures`中，请运行其中的：
+由于后期又添加了新的feature，这部分新的代码在`processing/newFeatures`中，请运行其中的：
 
 ```
 $ cd newFeatures
@@ -163,15 +111,15 @@ $ python faculty_feature_selection.py
 
 将生成出来的train和test的特征文件都重命名为`Card3Processed.txt`,`FacultyProcessed.txt`和`RankProcessed.txt`分别放置在processing下的`trainProcessed`和`testProcessed`文件夹下。
 
-提取后的特征值以不同表的文件名存放在不同txt文件中，现在我们将这些feature合并为一个文件，可供训练模型作为输入。运行：
+提取后的特征值以不同表的文件名存放在不同txt文件中，现在将这些feature合并为一个文件，可供训练模型作为输入。运行：
 
 ```
 $ sh refresh_train.sh
 $ sh refresh_test.sh
 ```
-上面命令运行了我们写好的两个命令行脚本，他们会自动的调用一系列我们编写好的python脚本，将提取feature后的文件合并在一起，并且对数据做标准的**归一化处理**。上面命令运行起来可能需要一些时间，请耐心等待不要关闭他们。
+上面命令运行了写好的两个命令行脚本，他们会自动的调用一系列我们编写好的python脚本，将提取feature后的文件合并在一起，并且对数据做标准的**归一化处理**。上面命令运行起来可能需要一些时间。
 
-请注意观察命令行中是否有错误提示信息出现，如果有请不要继续往下。如果您成功运行，那么恭喜您，特征提取完成了。您现在可以打开`processing/trainProcessed`目录下的`collumInfo.txt`文件或`processing/testProcessed`目录下的`collumInfo.txt`文件，他们的内容应该是完全一样的，分别列出了刚刚抽取feature的过程中所抽取的所有1151个feature的编号，名字以及他们所属的表。我们在这个步骤中生成出的以下两个文件将作为模型的输入文件：
+请注意观察命令行中是否有错误提示信息出现，如果有请不要继续往下。如果成功运行，那么特征提取完成了。现在可以打开`processing/trainProcessed`目录下的`collumInfo.txt`文件或`processing/testProcessed`目录下的`collumInfo.txt`文件，他们的内容应该是完全一样的，分别列出了刚刚抽取feature的过程中所抽取的所有1151个feature的编号，名字以及他们所属的表。在这个步骤中生成出的以下两个文件将作为模型的输入文件：
 
 ```
 processing/trainProcessed/idexamples_train_std.txt
@@ -187,7 +135,7 @@ $ cp testProcessed/idexamples_test_std.txt ../original_data
 
 ```
 **查看feature名**
-在上述提取feature的过程中，脚本自动将提取出来的feature名存入了一个名为`collumInfo.txt`的文件中，存放在`processing/trainProcessed`和`processing/testProcessed`目录下。打开后您应该可以看到类似如下的内容：
+在上述提取feature的过程中，脚本自动将提取出来的feature名存入了一个名为`collumInfo.txt`的文件中，存放在`processing/trainProcessed`和`processing/testProcessed`目录下。打开后应该可以看到类似如下的内容：
 
 ```
 fea0    BorrowProcessed.txt    ifBorrowed
@@ -214,13 +162,13 @@ fea10    DormProcessed.txt    01_00enterDiv
 ```
 python stratified_split_cross_validation.py
 ```
-现在，您应该可以在项目根目录下的original_data下找到5个划分好的CV子集。在对线下的训练集训练时，他们将作为真正的模型输入文件。
+现在，应该可以在项目根目录下的original_data下找到5个划分好的CV子集。在对线下的训练集训练时，他们将作为真正的模型输入文件。
 
-**注意** 5个CV文件实际上分别是`idexamples_train_std.txt`的子集。他们只在线下训练时用到。而对`idexampoles_test_std.txt`文件我们将不会做划分处理。在预测训练集并做线上提交使用时，我们将使用`idexamples_train_std.txt`的全集。
+**注意** 5个CV文件实际上分别是`idexamples_train_std.txt`的子集。他们只在训练时用到。而对`idexampoles_test_std.txt`文件将不会做划分处理。
 
 ### 训练模型&调参
 
-到现在为止，一切进展顺利。我们获得了我们需要的模型输入文件。接下来，我们将对各个模型进行训练，调参。
+到现在为止，一切进展顺利。获得了需要的模型输入文件。接下来，将对各个模型进行训练，调参。
 
 现在，进入根目录下的`offline`文件夹下，并开始模型的训练：
 
@@ -228,7 +176,7 @@ python stratified_split_cross_validation.py
 $ cd offline
 $ python learning_validation.py
 ```
-一切正常的话，在等待一段时间后，您应该可以看到类似下面的输出信息：
+一切正常的话，在等待一段时间后，应该可以看到类似下面的输出信息：
 
 ```
 random_seed = 0
@@ -268,9 +216,9 @@ one cv done  time: 39.1871788502
 avg macro F1:0.0274997544347
 time:194.953258038
 ```
-通过上面的输出信息，您可以查看训练模型在当前参数和CV上的训练精度信息，并根据这些信息调整模型的参数。
+通过上面的输出信息，可以查看训练模型在当前参数和CV上的训练精度信息，并根据这些信息调整模型的参数。
 
-模型的参数存放在项目根目录下的`commons/variables.py`文件中。用您喜欢的文本编辑器打开它您可以看到类似下面的信息：
+模型的参数存放在项目根目录下的`commons/variables.py`文件中。用文本编辑器打开它可以看到类似下面的信息：
 
 ```
   1 root_loc = "../original_data/"
@@ -317,8 +265,6 @@ time:194.953258038
 直接使用文本编辑器对上面的参数值进行修改并保存，再次运行`learning_validation.py`脚本, 即可调参。
 
 ### 训练不同的模型
-在参赛过程中，我队尝试了很多不同的分类模型，有：ExtraTree，RandomForest, GDBT, XGB, SVM, Nerual Network, AdaBoosting, logitic Regression, knn, decisionTree. 关于他们的代码可在项目根目录下的learning_algorithms中找到。
-
 要使用不同的训练模型进行训练，要修改代码`learning_validation.py`中的模型名字段。它在代码文件的第150行左右：
 
 ```
@@ -332,7 +278,7 @@ time:194.953258038
 在修改时，请使用模型的简称：gdbt, svm，ada, rf, et, knnBag, nn, xgb等。
 
 ### 预测
-在您调整好模型参数后（实际上在比赛中我们已经调参至最佳，所以您不需要动参数），就可以对测试集进行预测了，这将输出一个可以用于线上提交的csv文件，内包含有学生id和对应的获奖情况。
+在调整好模型参数后就可以对测试集进行预测了
 
 首先，进入项目根目录下的`online`下，并运行：
 
@@ -342,12 +288,12 @@ $ python add_subsidy_info.py
 ```
 上面命令在训练集`idexamples_train_std.txt`的每一行前加上了训练集中学生的获奖情况。并生产一个名为`training_examples.txt`的文件，同样存放在`original_data`下。
 
-接下来，我们运行：
+接下来，运行：
 
 ```
 $ python prediction_for_test.py
 ```
-等待一段时间后，您应该能看到以下关于预测结果的输出信息：
+等待一段时间后，应该能看到以下关于预测结果的输出信息：
 
 ```
 n_estimators= 1000 max_depth= 50 min_samples_split= 50 min_samples_leaf= 20 max_features= 200 max_leaf_nodes= None criterion= gini min_impurity_split= 1e-07 class_weight= {'0': 5.6, '1500': 95, 'min_weight_fraction_leaf': 0, '2000': 130, '1000': 60}
@@ -359,14 +305,14 @@ subsidy distribution:-----------------
 --------------------------------------
 ```
 
-现在，大功告成。预测完成，输出的文件在`original_data`下，您可以将此文件上传至DataCastle网站提交，查看你在线上的分数了。
+现在，大功告成。预测完成，输出的文件在`original_data`下。
 
 ## 融合
-为了将机器学习分类器的效果发挥到极致，我们要使用融合的办法，将不同模型训练后预测的结果做融合，以得到进一步的精度提升。
+为了将机器学习分类器的效果发挥到极致，要使用融合的办法，将不同模型训练后预测的结果做融合，以得到进一步的精度提升。
 
-关于融合的代码，您可以在项目根目录下的`blending`中找到。在融合之前，请确保您已经运行了所有的用于融合的模型，并生成出模型的预测结果。
+关于融合的代码，可以在项目根目录下的`blending`中找到。在融合之前，请确保已经运行了所有的用于融合的模型，并生成出模型的预测结果。
 
-在我们的测试中，使用以下模型的和参数融合效果最好：
+在的测试中，使用以下模型的和参数融合效果最好：
 
 ```
 name, tree_num, learning_rate, max_depth, select_rate min_split, min_leaf, subsample, maxfeature, weight(0:1000:1500:2000), seed
@@ -384,22 +330,7 @@ name, tree_num, max_depth, max_leaf_nodes, min_samples_split, min_samples_leaf, 
 rf,5000, 10, None, 110, 5, sqrt, gini, 5.6:60:95:130
 et,1000, 50, None, 50, 20, 200, gini, 1.00E-07, FALSE，4.7:38:58:75 
 ```
-采用以上7个模型参数进行融合，按照 `gbdt1:2, gbdt2:0.5, gbdt3:0.5, xgb:1.5, ada:1.5, rf:1, et:1`的比例，可以得到线下CV测试3.0的精度，提交至线上后，实际分数为0.03143。为排行榜第一。
-
-## 队伍信息
-**队伍名：**  
-Yancy&Zhendong  
-
-**曾用名：**  
-挖掘技术哪家强，忘记你我做不到
-
-**成员：**
-
- - 队长：杨轩 yancy100696@gmail.com
- - 刘振东 zhendong.nus@gmail.com
- - 曹峻许 junxucao@gmail.com
- - 刘一鸣 yimingl816@gmail.com
- - 卢健 jluan@connect.ust.hk
+采用以上7个模型参数进行融合，按照 `gbdt1:2, gbdt2:0.5, gbdt3:0.5, xgb:1.5, ada:1.5, rf:1, et:1`的比例，可以得到CV测试3.0的精度。
 
 ## licenses
 
